@@ -9,6 +9,7 @@ use App\Models\LoginModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -62,7 +63,8 @@ class UserController extends Controller
             'city'=>'required',
             'username'=>'required|unique:login,username',
             'password'=>'required',
-        ], [
+        ],
+            [
             'name.required' => 'Name is required',
             'surname.required' => 'Surname is required',
             'email.required' => 'Name is required',
@@ -81,33 +83,43 @@ class UserController extends Controller
         $username = $request->username;
         $pass = Utils::enkripto(htmlentities(trim($request->password)));
 
-        $login = new LoginModel();
-        $login->username = $username;
-        $login->password = $pass;
-        $login->role = LoginClass::KLIENT;
-        $login->save();
+        try {
 
-        $id_login = DB::getPDO()->lastInsertId();
-        //merr id e loginit te userit te ri dhe e ben FK te tabela Klient
+            DB::beginTransaction();
+            $login = new LoginModel();
+            $login->username = $username;
+            $login->password = $pass;
+            $login->role = LoginClass::KLIENT;
+            $login->save();
 
-        if ($id_login != ''){
-            $user = new KlientModel();
-            $user->emri = $name;
-            $user->mbiemri = $surname;
-            $user->email = $name;
-            $user->emri = $email;
-            $user->city = $city;
-            $user->cel = $cel;
-            $user->id_login = $id_login;
-            $user->save();
+            $id_login = DB::getPDO()->lastInsertId();
+            //merr id e loginit te userit te ri dhe e ben FK te tabela Klient
 
-            return Redirect::route('loginView');
-        }
-        else{
+            if ($id_login != '') {
+                $user = new KlientModel();
+                $user->emri = $name;
+                $user->mbiemri = $surname;
+                $user->email = $name;
+                $user->emri = $email;
+                $user->city = $city;
+                $user->cel = $cel;
+                $user->id_login = $id_login;
+                $user->save();
+                DB::commit();
+
+                return Redirect::route('loginView');
+            } else {
+                DB::rollback();
+                return Redirect::back()
+                    ->withErrors('Ndodhi nje problem dhe llogaria juaj nuk u krijua, ju lutem provoni perseri!');
+            }
+
+        }catch (\Exception $e){
+            DB::rollback();
             return Redirect::back()
-                ->withErrors('Ndodhi nje problem dhe llogaria juaj nuk u krijua, ju lutem provoni perseri!');
+                ->withInput(Input::all())
+                ->withErrors("Dicka nuk shkoi mire, provoni perseri");
         }
-
     }
 
     public function index(){

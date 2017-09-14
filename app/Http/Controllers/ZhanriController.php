@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Classes\ZhanriClass;
 use App\Models\CategoryModel;
+use App\Models\ZhanriModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
@@ -91,4 +93,34 @@ class ZhanriController extends Controller
             return $this->doResponse('ERR', $e->getMessage(), 500);
         }
     }
+
+    public function fshi(Request $request){
+        if (isset($request->id)){
+            $zhanri = ZhanriModel::where(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::ID, htmlentities(trim($request->id)))
+                ->delete();
+
+            if ($zhanri){
+                return [
+                    'sts'=> 1
+                ];
+            }else{
+                return [
+                  'sts' => 0
+                ];
+            }
+        }else{
+            return [
+                'sts' => 0
+            ];
+        }
+    }
+
+    public function view(Request $request){
+        $zhanri = ZhanriModel::get();
+
+        return view('backend.zhaner.view')
+            ->with("zhanri", $zhanri)
+            ;
+    }
+
 }

@@ -19,6 +19,7 @@ class KlientTable extends Migration
             $table->string('mbiemri');
             $table->string('email');
             $table->string('cel');
+            $table->string('city');
             $table->integer('id_login')->unsigned();
 //            $table->integer('status');//aktiv ose jo
             $table->timestamps();

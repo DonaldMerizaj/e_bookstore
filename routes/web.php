@@ -58,6 +58,14 @@ Route::group(['middleware'=> 'isLogged'], function (){
         Route::get('/dashboard/klient/shiko/{id}', 'KlientController@view')->name('shikoKlient');
         Route::post('/dashboard/klient/shiko/kthe', 'LibriController@kthe')->name('ktheLibri');
 
+        Route::post('/dashboard/zhaner/fshi', 'ZhanriController@fshi')->name('fshiZhaner');
+
+        Route::get('/dashboard/zhaner', 'ZhanriController@view')->name('viewZhaner');
+
+        Route::get('/dashboard/zhaner/krijo', function (){
+            return view('backend.zhaner.create');
+        })->name('krijoZhaner');
+
         Route::get('/dashboard/raporte', 'InventarController@raporte')->name('listRaporte');
 //        Route::get('/dashboard/klient', 'KlientController@index')->name('listKlient');
 
