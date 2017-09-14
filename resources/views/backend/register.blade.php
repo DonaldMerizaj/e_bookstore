@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Libraria</title>
+    <title>e-Library</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{!! asset('/assets/css/bootstrap.css') !!}" rel="stylesheet">
@@ -26,6 +26,7 @@
     <!-- Loaders Css -->
     <link rel="stylesheet" href="{!! asset('/assets/bower_components/loaders.css/loaders.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('/assets/bower_components/chosen/chosen.css') !!}">
+    <link rel="stylesheet" href="{!! asset('/assets/css/custom.css') !!}">
 
 
     <!-- jQuery -->
@@ -39,13 +40,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-</head>
-
-<body style="background-color: #ffffff !important;">
-
-<div id="wrapper_signup">
-
     <style>
 
         #overlay {
@@ -70,36 +64,28 @@
         }
     </style>
 
-    <!-- Navigation -->
+</head>
+
+<body style="background-color: #ffffff !important;">
+
+<div id="wrapper_signup">
+
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
 
-            {{--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">--}}
-            {{--<span class="sr-only">Toggle navigation</span>--}}
-            {{--<span class="icon-bar"></span>--}}
-            {{--<span class="icon-bar"></span>--}}
-            {{--<span class="icon-bar"></span>--}}
-            {{--</button>--}}
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <a class="navbar-brand" href="/">Libraria</a>
+                    <a class="navbar-brand" href="/">eLibrary</a>
                 </div>
                 <div class="col-md-4"></div>
             </div>
         </div>
-        <!-- Top Menu Items -->
-
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-
-        <!-- /.navbar-collapse -->
     </nav>
 
     <div id="page-wrapper">
 
         <div class="container-fluid">
-            <!-- Page Heading -->
             <div class="box box-info">
                 <div class="box-header with-border row">
                     <div class="col-md-12" style="text-align: center; margin-bottom: 2em;margin-top: 2em">
@@ -120,22 +106,65 @@
 
                 <div class="row">
                     {!! Form::open(array('id'=>'registerForm', 'route'=>'signup', 'method'=>'post')) !!}
-                    <div class="col-md-3 col-md-offset-2">
+                    <div class="col-md-4 col-md-offset-1">
+
                         <div class="box-body">
+
                             <div class="row">
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label">Username</label>
+                                    <label for="name" class="col-sm-3 control-label">Emri <span class="required_star">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="username" class="form-control" placeholder="Username" required>
+                                        <input type="text" name="name" class="form-control" placeholder="Emri" required>
+                                        <span class="validate-error"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 16px;">
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
-
+                                    <label for="surname" class="col-sm-3 control-label">Mbiemri <span class="required_star">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="password" name="password" class="form-control" placeholder="Password">
+                                        <input type="text" name="surname" class="form-control" placeholder="Mbiemri">
+                                        <span class="validate-error"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 16px;">
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-3 control-label">Email <span class="required_star">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="email" class="form-control" placeholder="e-mail">
+                                        <span class="validate-error"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 16px;">
+                                <div class="form-group">
+                                    <label for="city" class="col-sm-3 control-label">Qyteti <span class="required_star">*</span></label>
+                                    <div class="col-sm-9">
+                                        <select name="city" id="city" class="form-control">
+                                            <option value="-1" disabled selected>Zgjidh qytetin</option>
+                                            <option value="1"  >Tirane</option>
+                                            <option value="2">Berat</option>
+                                            <option value="3">Durres</option>
+                                            <option value="4">Ballsh</option>
+                                            <option value="5">Fier</option>
+                                            <option value="6">Elbasan</option>
+                                        </select>
+                                        <span class="validate-error"></span>
+                                        {{--<input type="text" name="surname" class="form-control" placeholder="Mbiemri">--}}
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 16px;">
+                                <div class="form-group">
+                                    <label for="nr_cel" class="col-sm-3 control-label">Nr. cel</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="nr_cel" class="form-control" placeholder="06x xXx yYyx">
+                                        <span class="validate-error"></span>
                                     </div>
                                 </div>
                             </div>
@@ -144,51 +173,34 @@
 
                     <div class="col-md-4 col-md-offset-1">
                         <div class="box-body">
-
                             <div class="row">
                                 <div class="form-group">
-                                    <label for="name" class="col-sm-2 control-label">Emri</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="name" class="form-control" placeholder="Emri" required>
+                                    <label for="username" class="col-sm-4 control-label">Username <span class="required_star">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="username" class="form-control" placeholder="Username" required>
+                                        <span class="validate-error"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 16px;">
                                 <div class="form-group">
-                                    <label for="surname" class="col-sm-2 control-label">Mbiemri</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="surname" class="form-control" placeholder="Mbiemri">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 16px;">
-                                <div class="form-group">
-                                    <label for="email" class="col-sm-2 control-label">Email</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="email" class="form-control" placeholder="e-mail">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 16px;">
-                                <div class="form-group">
-                                    <label for="city" class="col-sm-2 control-label">Qyteti</label>
-                                    <div class="col-sm-10">
-                                        <select name="city" id="city">
-                                            <option value="-1">Zgjidh qyetin</option>
-                                        </select>
-                                        <input type="text" name="surname" class="form-control" placeholder="Mbiemri">
+                                    <label for="password" class="col-sm-4 control-label">Password <span class="required_star">*</span></label>
+
+                                    <div class="col-sm-8">
+                                        <input type="password" name="password" class="form-control" placeholder="Password"
+                                               >
+                                        <span class="validate-error"></span>
+                                        <p style="margin-top: 5px;color: grey">Min 6 karaktere dhe 1 shifer</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="box-footer">
+                        <div class="box-footer" style="margin-top: 3em">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-info pull-right">Hyr</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{!! \Illuminate\Support\Facades\URL::route('register') !!}" class="btn btn-default">Regjistrohu</a>
+                                <div class="col-md-12">
+                                    <button type="submit" id="register"
+                                       class="btn btn-success pull-right">Regjistrohu</button>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +227,56 @@
 <script src="{!! asset('/assets/js/plugins/morris/raphael.min.js') !!}"></script>
 <script src="{!! asset('/assets/js/plugins/morris/morris.min.js') !!}"></script>
 <script src="{!! asset('/assets/js/plugins/morris/rmorris-data.js') !!}"></script>
+<script src="{!! asset("assets/js/jquery.validate.js") !!}"></script>
 
+<script>
+    $(function () {
+        $.validator.addMethod("regex", function(value, element, regexp) {
+            return regexp.test(value)
+        }, 'hiii');
+
+        $('#registerForm').validate({
+            rules: {
+                name: 'required',
+                surname: 'required',
+                email: {
+                    required:true,
+                    email:true
+                },
+                city: 'required',
+                username: 'required',
+                password: {
+                    required: true,
+                    regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
+                }
+            },
+            messages: {
+                name: 'Vendos emrin',
+                surname: 'Vendosni mbiemrin',
+                city: 'Zgjidhni qytetin',
+                email: {
+                    required: 'Vendosni emailin tuaj',
+                    email: 'Emaili nuk eshte i vlefshem'
+                },
+                username: 'Vendosni nje username per llogarine tuaj',
+                password: {
+                    required: 'Vendosni nje fjalkalim per llogarine tuaj',
+                    regex: 'Fjalkalimi jo i vlefshem'
+                }
+            },
+            errorPlacement: function (error, element) {
+                $.each(element, function () {
+                    $(element).parent().find(".validate-error").html(error);
+                })
+            }
+        });
+
+
+        $("#register").click(function () {
+            $("#registerForm").submit();
+        });
+    })
+</script>
 </body>
 
 </html>

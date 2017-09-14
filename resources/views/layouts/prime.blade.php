@@ -10,29 +10,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>DuaLibrin</title>
-
-   @include('layouts.headerScripts')
-</head>
-
-<body style="background-color: #ffffff !important;">
-
-    <div id="wrapper">
+    <title>e-Library</title>
 
     <style>
 
         #overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: #000;
-          filter:alpha(opacity=50);
-          -moz-opacity:0.5;
-          -khtml-opacity: 0.5;
-          opacity: 0.5;
-          z-index: 10000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            filter:alpha(opacity=50);
+            -moz-opacity:0.5;
+            -khtml-opacity: 0.5;
+            opacity: 0.5;
+            z-index: 10000;
         }
 
         .loader-inner.ball-pulse {
@@ -42,6 +35,12 @@
             color: white;
         }
     </style>
+   @include('layouts.headerScripts')
+</head>
+
+<body style="background-color: #ffffff !important;">
+
+    <div id="wrapper">
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -53,7 +52,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">DuaLibrin</a>
+                <a class="navbar-brand" href="/">e-Library</a>
             </div>
             <!-- Top Menu Items -->
             @include('layouts.asideMenu')

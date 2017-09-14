@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Libraria</title>
+    <title>e-Library</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{!! asset('/assets/css/bootstrap.css') !!}" rel="stylesheet">
@@ -40,12 +40,6 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-</head>
-
-<body style="background-color: #ffffff !important;">
-
-<div id="wrapper">
-
     <style>
 
         #overlay {
@@ -69,6 +63,11 @@
             color: white;
         }
     </style>
+</head>
+
+<body style="background-color: #ffffff !important;">
+
+<div id="wrapper">
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -83,10 +82,10 @@
             {{--</button>--}}
             <div class="row">
                 <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <a class="navbar-brand" href="/">Libraria</a>
+                <div class="col-md-6">
+                    <a class="navbar-brand" href="/">eLibrary</a>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-2"></div>
             </div>
         </div>
         <!-- Top Menu Items -->
@@ -105,7 +104,7 @@
             <!-- Page Heading -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mirësevini</h3>
+                    <h3 class="box-title" style="margin-bottom: 2em;">Mirësevini</h3>
                 </div>
 
                 <div class="row">
@@ -136,7 +135,7 @@
                                         <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
 
                                         <div class="col-sm-10">
-                                            <input type="password" name="password" class="form-control" placeholder="Password">
+                                            <input type="password" name="password" class="form-control" required placeholder="Password">
                                         </div>
                                     </div>
                                 </div>
