@@ -19,6 +19,7 @@ class UserTable extends Migration
             $table->string('surname');
             $table->string('email');
             $table->string('cel');
+            $table->string('city');
             $table->integer('id_login')->unsigned();
             $table->timestamps();
         });

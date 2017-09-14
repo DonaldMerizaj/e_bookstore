@@ -16,6 +16,7 @@ class KlientClass
     const EMRI = 'emri';
     const MBIEMRI = 'mbiemri';
     const EMAIL = 'email';
+    const CITY = 'city';
     const LOGIN = 'id_login';
     const CEL = 'cel';
 }

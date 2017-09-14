@@ -91,10 +91,10 @@
                     <div class="col-md-12" style="text-align: center; margin-bottom: 2em;margin-top: 2em">
                         <h3 class="box-title">Regjistrohu</h3>
                     </div>
-                    <div class="col-md-12" style="text-align: center;margin-top: 2em">
+                    <div class="col-md-10 col-md-offset-1" style="text-align: center;margin-top: 2em">
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
-                                <ul>
+                                <ul style="list-style: none">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach

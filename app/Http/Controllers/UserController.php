@@ -7,9 +7,8 @@ use App\Http\Controllers\Classes\UserClass;
 use App\Models\KlientModel;
 use App\Models\LoginModel;
 use App\Models\UserModel;
-use DB;
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -22,27 +21,16 @@ class UserController extends Controller
         ]);
         $pass=Utils::enkripto($request->password);
 
-//        $user = DB::select("select * from login where username = '$request->username' and password = '$request->password'");
-
         $user=LoginModel::where('username',htmlentities(trim($request->username)))->where('password',$pass)
             ->first();
-//        echo count($user); die();
 
-
-//        $us = DB::select("Select * from login where login.username ='$request->username' and login.password = '$request->password'");
-//        echo count($us); die();
-//        if(count($user[0]) > 0){
-//            $role = $user[0]->role;
         if (count($user) > 0){
             $role = $user->role;
             if ($role == LoginClass::KLIENT) {
-//                $useri = KlientModel::where('id_login', $user[0]->login_id)->first();
                 $useri = KlientModel::where('id_login', $user->login_id)->first();
             } else {
-//                $useri = UserModel::where('id_login', $user[0]->login_id)->first();
                 $useri = UserModel::where('id_login', $user->login_id)->first();
             }
-//            Utils::setLogin($user[0]->login_id, $role);
             Utils::setLogin($user->login_id, $role);
             return Redirect::route('dashboard');
         }
@@ -65,12 +53,63 @@ class UserController extends Controller
         }
     }
 
+    //funksioni qe ben signup nje klient i ri
     public function register(Request $request){
         $this->validate($request, [
-            'username'=>'required',
-            'password'=>'required'
-        ]);
+            'name'=>'required',
+            'surname'=>'required',
+            'email'=>'required|unique:klient,email',
+            'city'=>'required',
+            'username'=>'required|unique:login,username',
+            'password'=>'required',
+        ], [
+            'name.required' => 'Name is required',
+            'surname.required' => 'Surname is required',
+            'email.required' => 'Name is required',
+            'email.unique' => 'This email is already in use',
+            'city.required' => 'City is required',
+            'username.required' => 'Username is required',
+            'username.unique' => 'This username is already in use',
+            'password.required' => 'Passowrd is required',
+        ]); //validon inputin e userit
+
+        $name = htmlentities(trim($request->name));
+        $surname = htmlentities(trim($request->surname));
+        $email = htmlentities(trim($request->email));
+        $city = htmlentities(trim($request->city));
+        $cel = $request->cel ? htmlentities(trim($request->cel)) : 0;
+        $username = $request->username;
+        $pass = Utils::enkripto(htmlentities(trim($request->password)));
+
+        $login = new LoginModel();
+        $login->username = $username;
+        $login->password = $pass;
+        $login->role = LoginClass::KLIENT;
+        $login->save();
+
+        $id_login = DB::getPDO()->lastInsertId();
+        //merr id e loginit te userit te ri dhe e ben FK te tabela Klient
+
+        if ($id_login != ''){
+            $user = new KlientModel();
+            $user->emri = $name;
+            $user->mbiemri = $surname;
+            $user->email = $name;
+            $user->emri = $email;
+            $user->city = $city;
+            $user->cel = $cel;
+            $user->id_login = $id_login;
+            $user->save();
+
+            return Redirect::route('loginView');
+        }
+        else{
+            return Redirect::back()
+                ->withErrors('Ndodhi nje problem dhe llogaria juaj nuk u krijua, ju lutem provoni perseri!');
+        }
+
     }
+
     public function index(){
         $username = LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getLoginId())->first()->username;
 

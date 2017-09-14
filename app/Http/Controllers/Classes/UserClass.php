@@ -17,5 +17,6 @@ class UserClass
     const MBIEMRI = 'surname';
     const EMAIL = 'email';
     const CEL = 'cel';
+    const CITY = 'city';
     const ID_LOGIN = 'id_login';
 }
