@@ -62,9 +62,7 @@ Route::group(['middleware'=> 'isLogged'], function (){
 
         Route::get('/dashboard/zhaner', 'ZhanriController@view')->name('viewZhaner');
 
-        Route::get('/dashboard/zhaner/krijo', function (){
-            return view('backend.zhaner.create');
-        })->name('krijoZhaner');
+        Route::post('/dashboard/zhaner/krijo', 'ZhanriController@save')->name('save_zhaner');
 
         Route::get('/dashboard/raporte', 'InventarController@raporte')->name('listRaporte');
 //        Route::get('/dashboard/klient', 'KlientController@index')->name('listKlient');

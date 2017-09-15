@@ -7,37 +7,36 @@ use App\Models\CategoryModel;
 use App\Models\ZhanriModel;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Validator;
 
 class ZhanriController extends Controller
 {
 
-    public function store(Request $request)
+    public function save(Request $request)
     {
-        try {
 
-           $this->validate($request,
-                [
-                    'category_name' => 'required'
-                ]
-            );
+        if (isset($request->emri)){
+            try {
 
-            $category = new CategoryModel();
-            $category->emri = $request->category_name;
-            $category->save();
+                $category = new ZhanriModel();
+                $category->emri = htmlentities(trim($request->emri));
+                $category->save();
 
-            return [
-                'status' => 1,
-                'data' => $category
-            ];
+                $id = DB::getPDO()->lastInsertId();
+                return [
+                    'sts' => 1,
+                    'id' => $id
+                ];
 
-
-        } catch (Exception $e) {
-            return [
-                'status' => 0,
-                'error' => $e->getMessage()
-            ];
+            } catch (Exception $e) {
+                return [
+                    'sts' => 0,
+                    'error' => $e->getMessage()
+                ];
+            }
         }
+
     }
 
     public function update(Request $request)
@@ -95,13 +94,14 @@ class ZhanriController extends Controller
     }
 
     public function fshi(Request $request){
+//        echo $request->id;die();
         if (isset($request->id)){
             $zhanri = ZhanriModel::where(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::ID, htmlentities(trim($request->id)))
                 ->delete();
 
             if ($zhanri){
                 return [
-                    'sts'=> 1
+                    'sts'=> 1,
                 ];
             }else{
                 return [
@@ -115,7 +115,7 @@ class ZhanriController extends Controller
         }
     }
 
-    public function view(Request $request){
+    public function view(){
         $zhanri = ZhanriModel::get();
 
         return view('backend.zhaner.view')
