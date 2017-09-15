@@ -22,6 +22,11 @@
                 <i class="fa fa-fw fa-th-list"></i> Kategorite
             </a>
         </li>
+        <li class="">
+            <a href="{!! URL::route('viewAutor') !!}">
+                <i class="fa fa-user-circle"></i> Autoret
+            </a>
+        </li>
         @endif
         <li class="">
             <a href="{!! URL::route('listLibrat') !!}"><i class="fa fa-fw fa-book"></i> Librat </a>

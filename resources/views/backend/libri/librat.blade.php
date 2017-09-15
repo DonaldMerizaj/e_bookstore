@@ -42,9 +42,21 @@
                     <tbody>
                     @foreach($librat as $l)
                         <tr>
-                            <td>{!! $l->titulli !!}</td>
-                            <td>{!! $l->emri !!} {!! $l->mbiemri !!}</td>
-                            <td style="word-break: break-all;">
+                            <td style="text-align: center;">
+                                @if($l->image != '' || $l->image != null)
+                                    <img src="{!! asset('assets/img/'.$l->image) !!}" style="max-height: 120px;" alt="">
+                                    <p>
+                                        {!! $l->titulli !!}
+                                    </p>
+                                @else
+                                    <p style="margin-top: 30px;">
+                                        {!! $l->titulli !!}
+                                    </p>
+                                @endif
+
+                            </td>
+                            <td style="padding-top: 40px;">{!! $l->emri !!} {!! $l->mbiemri !!}</td>
+                            <td style="word-break: break-all;padding-top: 40px;">
                                 <?php
                                 $zhanri = \App\Models\LibriToZhanriModel::select(
                                     \App\Http\Controllers\Classes\ZhanriClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\ZhanriClass::EMRI)
@@ -67,16 +79,16 @@
 
                                 ?>
                             </td>
-                            <td>{!! $l->viti !!}</td>
-                            <td>{!! $l->cmimi !!}</td>
+                            <td style="padding-top: 40px;">{!! $l->viti !!}</td>
+                            <td style="padding-top: 40px;">{!! $l->cmimi !!}</td>
                             @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje>0))
-                                <td>Ka gjendje</td>
+                                <td style="padding-top: 40px;">Ka gjendje</td>
                                 @elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje==0))
-                                    <td>Nuk ka gjendje</td>
+                                    <td style="padding-top: 40px;">Nuk ka gjendje</td>
                                 @else
-                                <td>{!! $l->gjendje !!}</td>
+                                <td style="padding-top: 40px;">{!! $l->gjendje !!}</td>
                             @endif
-                            <td>
+                            <td style="padding-top: 40px;">
                                 @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::ADMIN)
                                 <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-default">
                                     <i class="fa fa-pencil"></i>

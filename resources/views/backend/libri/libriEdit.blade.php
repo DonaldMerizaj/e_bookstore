@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="foto">Foto Librit</label>
-                        <input type="file" id="foto">
+                        <input type="file" name="foto" id="foto">
 
                         <p class="help-block">
                         </p>

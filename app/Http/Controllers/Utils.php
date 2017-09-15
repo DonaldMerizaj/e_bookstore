@@ -22,7 +22,7 @@ class Utils
 {
     const SESSION_USER_ID = 'user_id';
     const SESSION_ROLE = 'role';
-    const PATH = '/img/';
+    const PATH = 'assets/img';
 
     public static function setLogin($user_id, $role)
     {
@@ -34,7 +34,8 @@ class Utils
     public static function getUsername(){
         return LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getLoginId())->first()->username;
     }
-public static function getUserId(){
+
+    public static function getUserId(){
         return UserModel::where(UserClass::TABLE_NAME.'.'.UserClass::ID_LOGIN, Utils::getLoginId())->first()->user_id;
     }
 
@@ -43,6 +44,7 @@ public static function getUserId(){
         return KlientModel::where(KlientClass::TABLE_NAME.'.'.KlientClass::LOGIN, Utils::getLoginId())->first()->klient_id;
 
     }
+
     public static function isLogged() {
         if (Session::has(self::SESSION_USER_ID)){
             return true;

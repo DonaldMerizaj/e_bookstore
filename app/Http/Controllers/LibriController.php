@@ -27,7 +27,8 @@ class LibriController extends Controller
         $librat = LibriModel::select(LibriClass::TABLE_NAME.'.'.LibriClass::TITULLI,LibriClass::TABLE_NAME.'.'.LibriClass::ID,
                     LibriClass::TABLE_NAME.'.'.LibriClass::CMIMI, LibriClass::TABLE_NAME.'.'.LibriClass::SHTEPI_BOTUESE,
                     LibriClass::TABLE_NAME.'.'.LibriClass::VITI, AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI,
-                    AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, InventarClass::TABLE_NAME.'.'.InventarClass::GJENDJE)
+                    AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, InventarClass::TABLE_NAME.'.'.InventarClass::GJENDJE,
+                    LibriClass::TABLE_NAME.'.'.LibriClass::IMAGE)
                     ->join(AutoriClass::TABLE_NAME, AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
                     ->join(InventarClass::TABLE_NAME, InventarClass::ID_LIBRI, LibriClass::TABLE_NAME.'.'.LibriClass::ID)
                     ->get();
@@ -84,7 +85,7 @@ class LibriController extends Controller
             $new->save();
 
             $lastId = DB::getPdo()->lastInsertId();
-//print_r($request->zhanri);die();
+
             if ($request->zhanri != null) {
                 foreach ($request->zhanri as $z) {
 
@@ -92,14 +93,13 @@ class LibriController extends Controller
                     $newZhaner->id_libri = $lastId;
                     $newZhaner->id_zhanri = $z;
                     $newZhaner->save();
-            //                echo $z;
                 }
             }else{
                 return Redirect::back()
                     ->withInput(Input::all())
                     ->withErrors("Zgjidhni zhanrin e librit!");
             }
-//echo 'a';die();
+
             $newInv = new InventarModel();
             $newInv->sasia_hyrje = $request->sasia ? $request->sasia : 0;
             $newInv->id_libri = $lastId;
@@ -107,8 +107,8 @@ class LibriController extends Controller
             $newInv->save();
 
             DB::commit();
-
             return Redirect::route('listLibrat')->send();
+
         }catch (\Exception $e){
             DB::rollback();
             return Redirect::back()
@@ -130,7 +130,7 @@ class LibriController extends Controller
             $autor = AutorModel::select(AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI, AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI,
                 AutoriClass::TABLE_NAME.'.'.AutoriClass::ID)
                 ->get();
-//            echo count($autor);die();
+
             $zhanri = ZhanriModel::select(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::EMRI, ZhanriClass::TABLE_NAME.'.'.ZhanriClass::ID)
                 ->get();
             $zhanriLibrit = LibriToZhanriModel::select(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_ZHANRI)
@@ -204,6 +204,21 @@ class LibriController extends Controller
                     'viti' => $viti
                 ]);
             }
+
+            if ($request->hasFile('foto')){
+
+                if (Input::file('foto')->isValid()){
+                    $image = Utils::ruajFoto('foto');
+                }else{
+                    return Redirect::back()->withInput(all())->withErrors('Foto nuk eshte e vlefshme!');
+                }
+            }else{
+//                echo 1;die();
+                $image = '';
+            }
+            $fields = array_merge($fields,[
+                'image' => $image
+            ]);
 
             $x=0;
             $zhanri = array();

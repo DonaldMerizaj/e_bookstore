@@ -65,7 +65,11 @@ Route::group(['middleware'=> 'isLogged'], function (){
         Route::post('/dashboard/zhaner/krijo', 'ZhanriController@save')->name('save_zhaner');
 
         Route::get('/dashboard/raporte', 'InventarController@raporte')->name('listRaporte');
-//        Route::get('/dashboard/klient', 'KlientController@index')->name('listKlient');
+
+        Route::get('/dashboard/autore', 'AutorController@view')->name('viewAutor');
+        Route::post('/dashboard/autore/fshi', 'AutorController@delete')->name('fshiAutor');
+        Route::post('/dashboard/autore/save', 'AutorController@save')->name('saveAutor');
+
 
     });
         Route::get('/logout', 'UserController@logout')->name('logout');
