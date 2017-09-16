@@ -1,6 +1,10 @@
 @extends('layouts.prime')
 @section('pageTitle')
-    Dashboard - Librat
+    @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::ADMIN)
+    Dashboard -
+    @endif
+    Librat
+
 @endsection
 @section('main_container')
     {{--<div class="row">--}}
@@ -32,9 +36,9 @@
                             <th>ZHANRI</th>
                             <th>VITI</th>
                             <th>CMIMI</th>
-                            @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
-                            <th>SASIA GJENDJE</th>
-                            @endif
+                            {{--@if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)--}}
+                            {{--<th>SASIA GJENDJE</th>--}}
+                            {{--@endif--}}
                             <th>VEPRIME</th>
                         </tr>
                     </thead>
@@ -66,7 +70,6 @@
                                     ->where(\App\Http\Controllers\Classes\LibriToZhanriClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\LibriToZhanriClass::ID_LIBRI,
                                         $l->libri_id)
                                     ->get();
-//echo count($zhanri).'/'.$l->libri_id;
                                 if (count($zhanri) > 0){
 
                                     echo $zhanri[0]->emri;
@@ -81,31 +84,53 @@
                             </td>
                             <td style="padding-top: 40px;">{!! $l->viti !!}</td>
                             <td style="padding-top: 40px;">{!! $l->cmimi !!}</td>
-                            @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje>0))
-                                <td style="padding-top: 40px;">Ka gjendje</td>
-                                @elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje==0))
-                                    <td style="padding-top: 40px;">Nuk ka gjendje</td>
-                                @else
-                                <td style="padding-top: 40px;">{!! $l->gjendje !!}</td>
-                            @endif
+                            {{--@if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje>0))--}}
+                                {{--<td style="padding-top: 40px;">Ka gjendje</td>--}}
+                                {{--@elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje==0))--}}
+                                    {{--<td style="padding-top: 40px;">Nuk ka gjendje</td>--}}
+                                {{--@else--}}
+                                {{--<td style="padding-top: 40px;">{!! $l->gjendje !!}</td>--}}
+                            {{--@endif--}}
                             <td style="padding-top: 40px;">
                                 @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::ADMIN)
-                                <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-default">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                @endif
-                                <a href="#" class="btn btn-info">
-                                    <i class="fa fa-eye"></i>
-                                </a>
-                                    @if(($l->gjendje>0))
-                                        @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT )
+                                    <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-default">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                @elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT)
 
-                                        @elseif(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
-                                        <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">
-                                        <i class="fa fa-money"></i>
-                                        @endif
-                                    @endif
-                                </a>
+                            <?php
+                            $exists = \App\Models\BasketModel::where(
+                                \App\Http\Controllers\Classes\BasketClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\BasketClass::ID_LIBRI,
+                                    $l->libri_id)
+                                ->where(\App\Http\Controllers\Classes\BasketClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\BasketClass::ID_KLIENT,
+                                    \App\Http\Controllers\Utils::getKlientId())
+                                ->where(\App\Http\Controllers\Classes\BasketClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\BasketClass::STATUS,
+                                    \App\Http\Controllers\Classes\BasketClass::ACTIVE)
+                                        ->first();
+                            ?>
+                                @if($exists)
+                                    <button class="btn btn-success">
+                                       <i class="fa fa-check"></i>
+                                    </button>
+                                @else
+                                    <button data-id="{!! $l->libri_id !!}" class="btn btn-info addCard">
+                                        shto ne &nbsp;<i class="fa fa-shopping-cart"></i>
+                                    </button>
+                                @endif
+
+
+                                @endif
+                                {{----}}
+                                    {{--@if($l->gjendje>0)--}}
+                                        {{--@if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT )--}}
+
+                                        {{--@elseif(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)--}}
+                                        {{--<a href="{!! URL::route('addCard', array($l->libri_id)) !!}" class="btn btn-default">--}}
+                                        {{--<i class="fa fa-shopping-cart"></i>--}}
+                                        {{--</a>--}}
+                                        {{--@endif--}}
+                                    {{--@endif--}}
+
                             </td>
                         </tr>
                     @endforeach
@@ -116,16 +141,41 @@
         </div>
     </div>
     <script>
-        $(function () {
+        $(
+            function () {
 //            $("#example1").DataTable();
-            $('#example1').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false
+                $('#example1').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false
+                });
+
+                $(".addCard").click(function () {
+                    var id = $(this).data("id");
+                    var btn = $(this);
+                    var url = '{!! \Illuminate\Support\Facades\URL::route('add_card') !!}';
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {_token: '{!! csrf_token() !!}', id_libri: id},
+                        success: function (data) {
+                            if (data.sts == 1) {
+                                swal("U shtua!", "", "success");
+
+                                btn.off('click');
+                                btn.html('<i class="fa fa-check"></i>');
+                                btn.attr('class', 'btn btn-success');
+                            } else {
+                                swal("U anulua!", "Dicka nuk shkoi mire, libri nuk u shtua ne shporte!", "error");
+                            }
+                        }
+                    })
+                });
+
             });
-        });
     </script>
 @endsection

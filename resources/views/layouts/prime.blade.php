@@ -70,7 +70,7 @@
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard">@yield('pageTitle')</i>
+                                <i class="fa fa-angle-right">@yield('pageTitle')</i>
                             </li>
                         </ol>
                     </div>
@@ -81,7 +81,6 @@
 
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
 
@@ -103,6 +102,7 @@
     <script src="{!! asset('/assets/js/plugins/morris/morris.min.js') !!}"></script>
     {{--<script src="{!! asset('/assets/js/plugins/morris/rmorris-data.js') !!}"></script>--}}
     <script src="{!! asset("assets/js/jquery.validate.js") !!}"></script>
+
 
 </body>
 

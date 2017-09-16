@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Classes\AutoriClass;
+use App\Http\Controllers\Classes\FeedbackClass;
 use App\Http\Controllers\Classes\HuazimClass;
 use App\Http\Controllers\Classes\KlientClass;
 use App\Http\Controllers\Classes\LibriClass;
+use App\Models\FeedbackModel;
 use App\Models\HuazimModel;
 use App\Models\KlientModel;
 use App\Models\LibriModel;
@@ -84,5 +86,39 @@ class KlientController extends Controller
                 ->with('librat', $librat)
                 ;
         }
+    }
+
+    public function krijomsg(){
+        return view('backend.klient.msg');
+    }
+
+    public function ruajmsg(Request $request){
+
+        $this->validate($request,[
+            'emri'=> 'required',
+            'email'=> 'required|email',
+            'desc'=> 'required',
+        ]);
+
+        $emri = htmlentities(trim($request->emri));
+        $email = htmlentities(trim($request->email));
+        $desc = htmlentities(trim($request->desc));
+
+        try{
+
+            $new = new FeedbackModel();
+            $new->emri = $emri;
+            $new->email = $email;
+            $new->desc = $desc;
+            $new->status = FeedbackClass::PENDING;
+            $new->save();
+
+            return Redirect::route('listLibrat');
+        }catch (\Exception $e){
+            return Redirect::back()
+                ->withInput(Input::all())
+                ->withErrors($e->getMessage());
+        }
+
     }
 }

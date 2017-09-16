@@ -70,10 +70,16 @@ Route::group(['middleware'=> 'isLogged'], function (){
         Route::post('/dashboard/autore/fshi', 'AutorController@delete')->name('fshiAutor');
         Route::post('/dashboard/autore/save', 'AutorController@save')->name('saveAutor');
 
-
+        Route::post('/feedback/all', 'KlientController@viewAllMsg')->name('viewMsgAll');
     });
-        Route::get('/logout', 'UserController@logout')->name('logout');
+
+    Route::get('/logout', 'UserController@logout')->name('logout');
+    Route::post('/card/save', 'CardController@save')->name('add_card');
+    Route::get('/card', 'CardController@view')->name('view_card');
+    Route::post('/card/fshi', 'CardController@fshi')->name('fshi_card');
+
+    Route::get('/feedback', 'KlientController@krijomsg')->name('krjomsg');
+    Route::post('/feedback/save', 'KlientController@ruajmsg')->name('ruajmsg');
 
 });
 Route::get('/pass', 'UserController@pass')->name('password');
-//
