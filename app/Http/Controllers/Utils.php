@@ -24,6 +24,7 @@ class Utils
     const SESSION_ROLE = 'role';
     const PATH = 'assets/img';
 
+    //vendos variablat e sesionit te userit
     public static function setLogin($user_id, $role)
     {
         Session::set(self::SESSION_USER_ID,$user_id );
@@ -31,6 +32,7 @@ class Utils
         Session::save();
     }
 
+    //merr username e userit te loguar
     public static function getUsername(){
         return LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getLoginId())->first()->username;
     }
@@ -45,6 +47,7 @@ class Utils
 
     }
 
+    //kontrollon nese eshte loguar useri
     public static function isLogged() {
         if (Session::has(self::SESSION_USER_ID)){
             return true;

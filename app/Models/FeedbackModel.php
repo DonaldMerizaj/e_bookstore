@@ -9,5 +9,5 @@ class FeedbackModel extends Model
 {
     protected $table = FeedbackClass::TABLE_NAME;
     protected $primaryKey = FeedbackClass::ID;
-    public $timestamps = false;
+    public $timestamps = true;
 }

@@ -96,6 +96,9 @@
                                     <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-default">
                                         <i class="fa fa-pencil"></i>
                                     </a>
+                                    <button data-id="{!! $l->libri_id !!}" class="btn btn-danger fshiLibri">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
                                 @elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT)
 
                             <?php
@@ -171,6 +174,26 @@
                                 btn.attr('class', 'btn btn-success');
                             } else {
                                 swal("U anulua!", "Dicka nuk shkoi mire, libri nuk u shtua ne shporte!", "error");
+                            }
+                        }
+                    })
+                });
+
+                $(".fshiLibri").click(function () {
+                    var id = $(this).data("id");
+                    var btn = $(this);
+                    var url = '{!! \Illuminate\Support\Facades\URL::route('fshiLibri') !!}';
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {_token: '{!! csrf_token() !!}', id: id},
+                        success: function (data) {
+                            if (data.sts == 1) {
+                                swal("U fshi!", "", "success");
+                                btn.parent().parent().remove();
+                            } else {
+                                swal("U anulua!", data.error, "error");
                             }
                         }
                     })

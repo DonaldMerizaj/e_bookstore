@@ -20,6 +20,7 @@ class CreateFeedbackTable extends Migration
             $table->string(FeedbackClass::EMAIL);
             $table->text(FeedbackClass::DESC);
             $table->smallInteger(FeedbackClass::STATUS);
+            $table->timestamps();
         });
     }
 

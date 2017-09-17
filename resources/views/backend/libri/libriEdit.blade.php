@@ -30,9 +30,9 @@
 
                     {{--{!! count($autor) !!}--}}
                     <div class="form-group">
-                        <label>Autori</label>
+                        <label for="autor">Autori</label>
                         {{--{!! $libri->id_autor !!}--}}
-                        <select name="autori" class="form-control select2 select2-hidden-accessible" data-placeholder="Zgjidh autor"
+                        <select name="autori" id="autor" class="form-control select2 select2-hidden-accessible" data-placeholder="Zgjidh autor"
                                 style="width: 100%;" tabindex="-1" aria-hidden="true">
                             @foreach($autor as $a)
                                 @if($a->autor_id == $libri->id_autor)
@@ -90,8 +90,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="foto">Foto Librit</label>
-                        <input type="file" name="foto" id="foto">
+                        <div class="row">
+                            <label for="foto">Foto Librit</label>
+                        </div>
+                        <div class="row">
+                            @if($libri->image != '')
+                                <img style="max-height: 90px" src="{!! asset('assets/img/'.$libri->image) !!}" alt="">
+                                <input type="file" name="foto" id="foto" value="{!! $libri->image !!}">
+                            @else
+                                <input type="file" name="foto" id="foto">
+                            @endif
+                        </div>
 
                         <p class="help-block">
                         </p>
@@ -99,8 +108,10 @@
                 </div>
                 <input type="hidden" name="idlibri" value="{!! $libri->libri_id !!}">
 
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-success">Update</button>
+                <div class="row col-md-12">
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
                 </div>
                 {!! Form::close() !!}
             </div>

@@ -34,33 +34,31 @@ Route::get('/register', function () {
 // home page
 Route::post('/login', 'UserController@login')->name('login');
 Route::post('/signup', 'UserController@register')->name('signup');
-//Route::get('/pass', 'UserController@pass')->name('pass');
+
 
 Route::group(['middleware'=> 'isLogged'], function (){
-    Route::get('/dashboard', 'UserController@index')->name('dashboard');
+//    Route::get('/dashboard', 'UserController@index')->name('dashboard');
     Route::get('/dashboard/librat', 'LibriController@index')->name('listLibrat');
     Route::get('/dashboard/librat/krijo', 'LibriController@create')->name('krijoLiber');
     Route::post('/dashboard/librat/krijo/ruaj', 'LibriController@ruaj')->name('ruajLiber');
     Route::get('/dashboard/librat/edito/{id}', 'LibriController@edit')->name('editLibri');
     Route::post('/dashboard/librat/edito/update', 'LibriController@update')->name('updateLiber');
-    Route::get('/dashboard/librat/huazo/{id}', 'LibriController@huazo')->name('huazoLiber');
-
-
-    Route::post('/dashboard/librat/huazo/libri', 'HuazimController@ruajHuazim')->name('huazoLibri');
-//    Route::get('/dashboard/librat/edito/{id}', 'LibriController@edit')->name('viewLibri');
+    Route::post('/dashboard/librat/edito/fshi', 'LibriController@fshi')->name('fshiLibri');
 
     Route::group(['middleware'=> 'isPunonjes'], function () {
 
         Route::get('/dashboard/users', 'LibriController@index')->name('listUsers');
+
         Route::get('/dashboard/klient', 'KlientController@index')->name('listKlient');
-        Route::get('/dashboard/klient/krijo', 'KlientController@create')->name('krijoKlient');
-        Route::post('/dashboard/klient/ruaj', 'KlientController@ruaj')->name('ruajKlient');
-        Route::get('/dashboard/klient/shiko/{id}', 'KlientController@view')->name('shikoKlient');
+
         Route::post('/dashboard/klient/shiko/kthe', 'LibriController@kthe')->name('ktheLibri');
 
         Route::post('/dashboard/zhaner/fshi', 'ZhanriController@fshi')->name('fshiZhaner');
 
         Route::get('/dashboard/zhaner', 'ZhanriController@view')->name('viewZhaner');
+
+        Route::get('/dashboard/mesazhe', 'UserController@viewAllMsg')->name('viewallmsg');
+        Route::post('/dashboard/mesazhe/fshi', 'UserController@fshiMsg')->name('fshiMsg');
 
         Route::post('/dashboard/zhaner/krijo', 'ZhanriController@save')->name('save_zhaner');
 
@@ -82,4 +80,3 @@ Route::group(['middleware'=> 'isLogged'], function (){
     Route::post('/feedback/save', 'KlientController@ruajmsg')->name('ruajmsg');
 
 });
-Route::get('/pass', 'UserController@pass')->name('password');

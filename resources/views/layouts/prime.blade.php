@@ -1,5 +1,3 @@
-
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -103,7 +101,53 @@
     {{--<script src="{!! asset('/assets/js/plugins/morris/rmorris-data.js') !!}"></script>--}}
     <script src="{!! asset("assets/js/jquery.validate.js") !!}"></script>
 
+    <script>
+        @if(\Illuminate\Support\Facades\Session::has("error"))
+    $(function () {
+            toastr.error(('{{$error}}'));
 
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-right",
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        });
+        @endif
+
+        @if (count($errors) > 0)
+            @foreach ($errors->all() as $error)
+    $(function () {
+//                alert();
+            toastr.error(('{{$error}}'));
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-right",
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        });
+        @endforeach
+        @endif
+
+    </script>
 </body>
 
 </html>

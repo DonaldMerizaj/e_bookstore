@@ -85,14 +85,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label>Sasia</label>
-                            <input type="number" name="sasia" class="form-control" value="{!! old('sasia') !!}" placeholder="Sasia">
-                            <small>*Sasia e librave nese ka hyrje ose 0 nese nuk ka</small>
-                            <span class="validate-error"></span>
-                        </div>
-                    </div>
+
                 </div>
             <div class="row">
                 <div class="col-md-1" style="margin-left: 16px;">

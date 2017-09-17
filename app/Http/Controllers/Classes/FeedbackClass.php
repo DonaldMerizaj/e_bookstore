@@ -19,5 +19,5 @@ class FeedbackClass
     const STATUS = 'status';
 
     const PENDING = 1;
-    const SOLVED = 0;
+    const DELETED = 0;
 }

@@ -11,6 +11,12 @@
                 <i class="fa fa-shopping-cart"></i>
             </a>
         </li>
+    @else
+        <li>
+            <a href="{!! \Illuminate\Support\Facades\URL::route('viewallmsg') !!}">
+                <i class="fa fa-envelope-o"></i>
+            </a>
+        </li>
     @endif
 
     <li class="dropdown">
@@ -26,12 +32,12 @@
 
         @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::ADMIN)
         <li class="">
-            <a href="{!! URL::route('dashboard') !!}"><i class="fa fa-fw fa-dashboard"></i> Dashboard </a>
+            <a href="{!! URL::route('listLibrat') !!}"><i class="fa fa-fw fa-dashboard"></i> Dashboard </a>
         </li>
 
-        <li class="">
-            <a href="{!! URL::route('listRaporte') !!}"><i class="fa fa-fw fa-line-chart"></i> Raporte </a>
-        </li>
+        {{--<li class="">--}}
+            {{--<a href="{!! URL::route('listRaporte') !!}"><i class="fa fa-fw fa-line-chart"></i> Raporte </a>--}}
+        {{--</li>--}}
         <li class="">
             <a href="{!! URL::route('viewZhaner') !!}">
                 <i class="fa fa-fw fa-th-list"></i> Kategorite
